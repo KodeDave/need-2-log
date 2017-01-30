@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <help_text>// Uncomment the following line to change the fontsize and font:
+fontsize=10
+// fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Welcome to UMLet!
+//
+// Double-click on elements to add them to the diagram, or to copy them
+// Edit elements by modifying the text in this panel
+// Hold Ctrl to select multiple elements
+// Use Ctrl+mouse to select via lasso
+//
+// Use +/- or Ctrl+mouse wheel to zoom
+// Drag a whole relation at its central square icon
+//
+// Press Ctrl+C to copy the whole diagram to the system clipboard (then just paste it to, eg, Word)
+// Edit the files in the "palettes" directory to create your own element palettes
+//
+// Select "Custom Elements &gt; New..." to create new element types
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// This text will be stored with each diagram;  use it for notes.</help_text>
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>72</x>
+      <y>0</y>
+      <w>544</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>*Use Case: Login*
+--
+*ID: UC1*
+--
+*ACTOR: U1 User*
+--
+*Preconditions:*
+* U1 is not logged in yet
+--
+*Basic course of events:*
+1. U1 insert passphrase
+2. The system verifies the password and, if, correct, decrypt the database and show the element wich is in it
+--
+*Postconditions:*
+* U1 is logged into the system.
+* The database was decrypted and the data is accessible
+* U1 is in the home page.
+--
+*Alternative paths:*
+* if 2. fails, system shows an error message, then goes back to the login page.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>624</x>
+      <y>0</y>
+      <w>544</w>
+      <h>264</h>
+    </coordinates>
+    <panel_attributes>*Use Case: Create new account*
+--
+*ID: UC2*
+--
+*ACTOR: U1 User*
+--
+*Preconditions:*
+* U1 was logged in
+--
+*Basic course of events:*
+1. U1 select to create a new account.
+2. U1 select the type of account.
+3. U1 insert all the data related to the new account.
+4. The system verify the correctiveness of the data inserted.
+5. The system update the database.
+--
+*Postconditions:*
+* The system have a new element in the database.
+* U1 is at the home page
+--
+*Alternative paths:*
+* U1 decide to erase the current action, the system ask a confirm, so U1 was sended to the home page.
+* If 4 fails, the system shows an error message and the user was invited to insert the correct data.
+* if 5 fails, the system shows an error message, user was invited to check settings and then to reinsert data.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>72</x>
+      <y>272</y>
+      <w>544</w>
+      <h>304</h>
+    </coordinates>
+    <panel_attributes>*Use Case: Modify an existing account*
+--
+*ID: UC3*
+--
+*ACTOR: U1 User*
+--
+*Preconditions:*
+* U1 was logged in
+* Database has at least one account stored.
+--
+*Basic course of events:*
+1. U1 select to modify an existing account.
+2. U1 select the account from a list.
+3. The system request the new data and U1 insert it.
+4. The system verify the correctiveness of what inserted.
+5. The system shows an alert message requesting a confirm.
+6. The system update the data.
+7. The system update the database.
+--
+*Postconditions:*
+* Database was changed.
+* U1 is in the home page.
+--
+*Alternative paths:*
+* U1 decide to erase the current action, the system ask a confirm, so U1 was sended to the home page.
+* If 4 fails, the system shows an error message and the user was invited to insert the correct data.
+* if 7 fails, the system shows an error message, user was invited to check settings and then to reinsert data.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>624</x>
+      <y>272</y>
+      <w>544</w>
+      <h>264</h>
+    </coordinates>
+    <panel_attributes>*Use Case: Erase an existing account*
+--
+*ID: UC4*
+--
+*ACTOR: U1 User*
+--
+*Preconditions:*
+* U1 was logged in
+* Database has at least one account stored.
+--
+*Basic course of events:*
+1. U1 select to erase an existing account.
+2. U1 select the account from a list.
+3. The system request a confirm after proceed.
+4. The system update the data.
+5. The system update the database.
+--
+*Postconditions:*
+* Database was changed.
+* U1 is in the home page.
+--
+*Alternative paths:*
+* If U1 decide to erase the current action, the system ask a confirm, so U1 was sended to the home page.
+* if 5 fails, the system shows an error message, user was invited to check settings and then to retry.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>72</x>
+      <y>584</y>
+      <w>544</w>
+      <h>232</h>
+    </coordinates>
+    <panel_attributes>*Use Case: Show an existing account*
+--
+*ID: UC5*
+--
+*ACTOR: U1 User*
+--
+*Preconditions:*
+* U1 was logged in
+* Database has at least one account stored.
+--
+*Basic course of events:*
+1. U1 select to show an existing account.
+2. U1 select the account from a list.
+3. The system send a query to the db and show the requested data.
+--
+*Postconditions:*
+* U1 has the information searched.
+--
+*Alternative paths:*
+* If U1 decide to erase the current action, the system ask a confirm, so U1 was sended to the home page.
+* if 3 fails, the system shows an error message, user was invited to check settings and then to retry.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>624</x>
+      <y>584</y>
+      <w>544</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>*Use Case: Use an existing account*
+--
+*ID: UC6*
+--
+*ACTOR: U1 User*
+--
+*Preconditions:*
+* U1 was logged in
+* Database has at least one account stored.
+--
+*Basic course of events:*
+1. U1 select to use info related to an existing account.
+2. U1 select the account from a list.
+3. The system send a query to the db and show the account's related data.
+4. User was able to use the data.
+    (e.g.: user was sended to the default browser and then he/she was automatically logged into the account).
+--
+*Postconditions:*
+* U1 is in the home page.
+* U1 is in the requested account (if function is available).
+--
+*Alternative paths:*
+* If U1 decide to erase the current action, the system ask a confirm, so U1 was sended to the home page.
+* if 3 fails, the system shows an error message, user was invited to check settings and then to retry.
+* if 4. fails but the function was available, user nedds to insert requested data manually. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>72</x>
+      <y>872</y>
+      <w>544</w>
+      <h>264</h>
+    </coordinates>
+    <panel_attributes>*Use Case: Modify settings*
+--
+*ID: UC7*
+--
+*ACTOR: U1 User*
+--
+*Preconditions:*
+* U1 was logged in
+--
+*Basic course of events:*
+1. U1 choose to modify some settings
+2. U1 select what needed a modify and do it.
+3. The system show an alert message and request a confirm for the action.
+4. The system update the settings.
+--
+*Postconditions:*
+* Program's settings was changed.
+* U1 is in the home page.
+--
+Alternative paths:*
+* If U1 decide to erase the current action, the system ask a confirm, so U1 was sended to the home page.
+* if 4 fails, the system shows an error message, user was invited to check settings and then to retry.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>624</x>
+      <y>872</y>
+      <w>544</w>
+      <h>264</h>
+    </coordinates>
+    <panel_attributes>*Use Case: Backups information*
+--
+*ID: UC8*
+--
+*ACTOR: U1 User*
+--
+*Preconditions:*
+* U1 was logged in
+* Database has at least one account stored.
+--
+*Basic course of events:*
+1. U1 choose to do a backup of the data.
+2. The system show an alert message and request a confirm for the action.
+3. The system ask at U1 to choose the path and the name of the backup.
+4. The system do the backup and save it in the required path.
+--
+*Postconditions:*
+* U1 is in the home page.
+* U1 have the requested backup.
+--
+Alternative paths:*
+* If U1 decide to erase the current action, the system ask a confirm, so U1 was sended to the home page.
+* If 3. fails, the system shows an error message, user was invited to verify the inserted data an then to retry.
+* if 4. fails, the system shows an error message, user was invited to check settings and then to retry.</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

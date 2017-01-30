@@ -4,8 +4,7 @@
 % e ridefinisce alcuni titoli in italiano, come "Capitolo" al posto di "Chapter",
 %\usepackage[T1]{fontenc} % Riga da togliere se si compila con PDFLaTeX
 \usepackage[utf8]{inputenc} % Consente l'uso caratteri accentati italiani
-\usepackage{graphicx}
-\usepackage{eso-pic}
+\usepackage{graphicx, floatflt, eso-pic}
 \frenchspacing% forza LaTeX ad una spaziatura uniforme, invece di lasciare più spazio
               % alla fine dei punti fermi come da convenzione inglese
 \makeatletter\patchcmd{\l@chapter}{1.0em}{0.3em}{}{}\makeatother %riduco la spaziatura
@@ -15,7 +14,8 @@
 \begin{document}
 \begin{titlepage}% pagina I
 	\centering
-	\vspace{1.5cm}
+	%\vspace{1.5cm}
+	\vfill
 	%{\AddToShipoutPicture*{\AtPageCenter{\makebox(0 ,0)
 	%	{\includegraphics[width=0.9\paperwidth,height=0.9\paperheight,keepaspectratio=false]{logoUniUrb}}}}}
 	%\includegraphics[height=8mm]{Kode-simbol.jpg}
@@ -40,55 +40,31 @@
   Questo documento è stato preparato con \LaTeX.
   \end{titlepage}
 \newpage
-\begin{abstract} % sommario - pagina II
-  {\centering{\scshape\large Servizio web di rete sociale dedicato allo sviluppo di contatti professionali}\\(es. Linkedin)\par}
-  \vfill
-  \begin{enumerate}
-    \item Lo scopo principale della piattaforma è consentire agli utenti registrati di mantenere
-    una lista di persone conosciute e ritenute affidabili in ambito lavorativo.
-    \item Le persone nella lista sono definite \textsc{“connessioni”}: esse sono in effetti le connessioni
-    di un nodo (l’utente) all’interno della rete sociale.
-    \item L’utente può incrementare il numero delle sue connessioni invitando chi di suo gradimento.
-    \item La rete di contatti a disposizione dell’utente è costituita da tutte le connessioni dell’utente,
-    tutte le connessioni delle sue connessioni (“connessioni di secondo grado”) e da tutte le connessioni
-    delle connessioni di secondo grado (“connessioni di terzo grado”).
-    \end{enumerate}
-  \vfill
-  Attraverso la piattaforma è possibile effettuare diverse attività:
-  %\vspace{0.5cm}
-  \vfill
-  \begin{itemize}
-    \item Essere presentati a qualcuno che si desidera conoscere attraverso un contatto mutuo e affidabile.
-    \item Trovare offerte di lavoro, persone, opportunità di business con il supporto di qualcuno presente
-    all’interno della propria lista di contatti o del proprio network.
-    \item I datori di lavoro (utenti premium, a pagamento) possono pubblicare offerte e ricercare potenziali candidati.
-    \item Le persone in cerca di lavoro (utenti semplici, account free) possono consultare tali offerte nella
-    sezione Offerte di lavoro.
-    \item Gli utenti possono presentare la loro professionalità evidenziando nel proprio
-    profilo personale (curriculum) i propri skill professionali e le competenze lavorative, oltre alle
-    classiche informazioni presenti in un curriculum (dati anagrafici, studi, posizioni lavorative ricoperte etc.).
-    \item I gruppi sono formati da utenti che hanno qualcosa in comune, come un particolare
-    percorso di carriera lavorativa, interessi di business simili, una specifica provenienza geografica o altro.
-    \item Le segnalazioni sono veri e propri attestati di stima di chi ha lavorato con te –
-    collega, datore di lavoro o cliente – e che riconosce il tuo talento, la tua preparazione, la tua professionalità.
-    \item Anche l’area del profilo dedicata ai riconoscimenti e ai premi ottenuti è importante
-    per valorizzare la propria immagine di professionista agli occhi degli altri iscritti sul social network
-    e delle aziende o dei brand che vi hanno stabilito una presenza.
-    \end{itemize}
-  \end{abstract} % Qui termina l'ambiente ''abstract''
-\newpage
 \tableofcontents % Prepara l'indice generale - pagina 1
 \newpage
-\part{Specifica del problema} %Prima parte - pagina 2
-  È possibile scrivere il testo dell'articolo normalmente, ed
-  \emph{enfatizzare} alcune parti del discorso. %
-  Una riga vuota nel testo indica la fine di un paragrafo.
+\chapter{Specifica del problema} %Prima parte - pagina
+		Si vuole realizzare un sistema che dia la possibilità di salvare in modo sicuro
+			gli account posseduti dall'utilizzatore in modo tale che egli non debba ricordare
+			ogni singola credenziale, username o password personale.
 
-  Quindi questo è un nuovo paragrafo.
-
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		Per poter rispettare suddetta specifica, il sistema dovrà possedere tali
+		 	caratteristiche e comportamenti:
+		\begin{itemize}
+			\item Tutti i dati sensibili forniti dall'utente dovranno essere salvati
+				all'interno di un database criptato.
+			\item L'accesso al sistema deve essere permesso solo dopo l'immissione e la
+				verifica di una passphrase.
+			\item La password di accesso deve essere conservata in modo sicuro.
+			\item L'accesso all'applicativo e ai dati potrà essere eseguito solo dopo che
+				l'utilizzatore avrà inserito la corretta passphrase (da lui preventivamente
+				definita).
+			\item Il sistema deve dare la possibilità di modificare ed eliminare uno o
+				tutti i dati presenti nel database.
+			\item Il sistema deve permettere di cambiare le impostazioni dell'applicazione,
+				tra cui anche la password di accesso.
+			\end{itemize}
 \newpage
-\part{Specifica dei requisiti} %
+\chapter{Specifica dei requisiti} %
 	Osservando la specifica del problema risulta evidente quanto l’applicazione
 	debba possedere efficienti sistemi di sicurezza, per preservare i dati dell’utilizzatore
 	da un eventuale attacco informatico.\vfill
@@ -109,70 +85,120 @@
 			\item	In fase di modifica della password, l’utente può decidere di inserire una
 			propria password personale o di crearne una pseudo randomicamente tramite un
 			apposito algoritmo messo a disposizione dal sistema stesso.
-	\end{itemize}
-  \chapter{cap 1}
+		\end{itemize}
+  \section{cap 1}
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  \chapter{cap 2}
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  \chapter{cap 3}
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  \chapter{cap 4}
+  \section{Diagramma dei casi d'uso}
+    Si riportano di seguito i casi d'uso relativi alla libreria (...) e all'interfaccia grafica.
+		\begin{figure}[htbp]
+			\centering
+			\includegraphics[scale = 0.5]{immagini/USE_CASE_DIAGRAM-UMLet.jpg}
+			\caption{Diagramma dei casi d'uso tramite GUI da parte dell'utente}
+			\end{figure}
+  \section{Template dei casi d'uso}
+		Nel capitolo 5 si descriverà un test black-box relativo all’interfaccia dimostrativa,
+			vengono pertanto riportati qui tutti i template dei casi d’uso relativi.
+
+		Poiché il processo di sviluppo utilizzato (sezione 4.1) prevede lo sviluppo orientato ai test,
+			non è necessario effettuare dei test di tipo black-box sulla libreria
+			(durante lo sviluppo vengono creati test white-box che coprono quasi tutti i possibili flussi d’esecuzione)
+			ed è quindi superfluo descrivere i template dei casi d’uso della libreria.
+
+		\begin{figure}[htbp]
+			\centering
+			\includegraphics[width = \textwidth]{immagini/USE_CASE_TEMPLATE/UC01.jpg}
+			\caption{Template relativo al caso d'uso UC1}
+			\end{figure}
+		\begin{figure}[htbp]
+			\centering
+			\includegraphics[width = \textwidth]{immagini/USE_CASE_TEMPLATE/UC02.jpg}
+			\caption{Template relativo al caso d'uso UC2}
+			\end{figure}
+		\begin{figure}[htbp]
+			\centering
+			\includegraphics[width = \textwidth]{immagini/USE_CASE_TEMPLATE/UC03.jpg}
+			\caption{Template relativo al caso d'uso UC3}
+			\end{figure}
+		\begin{figure}[htbp]
+			\centering
+			\includegraphics[width = \textwidth]{immagini/USE_CASE_TEMPLATE/UC04.jpg}
+			\caption{Template relativo al caso d'uso UC4}
+			\end{figure}
+		\begin{figure}[htbp]
+			\centering
+			\includegraphics[width = \textwidth]{immagini/USE_CASE_TEMPLATE/UC05.jpg}
+			\caption{Template relativo al caso d'uso UC5}
+			\end{figure}
+		\begin{figure}[htbp]
+			\centering
+			\includegraphics[width = \textwidth]{immagini/USE_CASE_TEMPLATE/UC06.jpg}
+			\caption{Template relativo al caso d'uso UC6}
+			\end{figure}
+		\begin{figure}[htbp]
+			\centering
+			\includegraphics[width = \textwidth]{immagini/USE_CASE_TEMPLATE/UC07.jpg}
+			\caption{Template relativo al caso d'uso UC7}
+			\end{figure}
+		\begin{figure}[htbp]
+			\centering
+			\includegraphics[width = \textwidth]{immagini/USE_CASE_TEMPLATE/UC08.jpg}
+			\caption{Template relativo al caso d'uso UC8}
+			\end{figure}
+  \section{cap 4}
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 \newpage
-\part{Analisi e progettazione} %
+\chapter{Analisi e progettazione} %
   La forza di \LaTeX\ sono però le formule, sia in linea (ad esempio \(y=x^2\))
    che messe in bella mostra in un'area propria:
   \[y=\sqrt{x+y}\]
-  \chapter{cap 1}
-	\begin{enumerate}
-		\item MVC - Model View Controller
-		\item Singleton
-	\end{enumerate}
-		Model-View-Controller (MVC)
-		Singleton
+  \section{cap 1}
+		\begin{enumerate}
+			\item MVC - Model View Controller
+			\item Singleton
+			\end{enumerate}
+
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  \chapter{cap 2}
+  \section{cap 2}
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  \chapter{cap 3}
+  \section{cap 3}
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  \chapter{cap 4}
+  \section{cap 4}
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 \newpage
-\part{Implementazione} %
+\chapter{Implementazione} %
   La forza di \LaTeX\ sono però le formule, sia in linea (ad esempio \(y=x^2\))
    che messe in bella mostra in un'area propria:
   \[y=\sqrt{x+y}\]
-  \chapter{cap 1}
+  \section{cap 1}
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  \chapter{cap 2}
+  \section{cap 2}
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  \chapter{cap 3}
+  \section{cap 3}
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 \newpage
-\part{Test} %
+\chapter{Test} %
   La forza di \LaTeX\ sono però le formule, sia in linea (ad esempio \(y=x^2\))
    che messe in bella mostra in un'area propria:
   \[y=\sqrt{x+y}\]
-  \chapter{cap 1}
+  \section{cap 1}
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    \section{sez 1}
+    \subsection{sez 1}
       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  \chapter{cap 2}
+  \section{cap 2}
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    \section{sez 2}
+    \subsection{sez 2}
       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 \newpage
-\part{Compilazione ed esecuzione} %
+\chapter{Compilazione ed esecuzione} %
 	La forza di \LaTeX\ sono però le formule, sia in linea (ad esempio \(y=x^2\))
    che messe in bella mostra in un'area propria:
   \[y=\sqrt{x+y}\]
-  \chapter{cap 1}
+  \section{cap 1}
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    \section{sez 1}
+    \subsection{sez 1}
       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  \chapter{cap 2}
+  \section{cap 2}
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    \section{sez 1}
+    \subsection{sez 1}
       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
 \end{document}
