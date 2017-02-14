@@ -146,6 +146,5 @@ namespace N2L_Need_2_Log.core
             return new string(result);
             //System.Security.Cryptography.PasswordDeriveBytes()
         }
-
     }
 }
