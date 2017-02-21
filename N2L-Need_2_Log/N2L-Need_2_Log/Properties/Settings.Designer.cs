@@ -23,15 +23,12 @@ namespace N2L_Need_2_Log.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".\\Resources\\DBN2L.db")]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\Resources\\DBN2L.db")]
         public string dbpath {
             get {
                 return ((string)(this["dbpath"]));
-            }
-            set {
-                this["dbpath"] = value;
             }
         }
         
@@ -71,12 +68,12 @@ namespace N2L_Need_2_Log.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string password {
+        public string password_hash {
             get {
-                return ((string)(this["password"]));
+                return ((string)(this["password_hash"]));
             }
             set {
-                this["password"] = value;
+                this["password_hash"] = value;
             }
         }
         
@@ -92,15 +89,12 @@ namespace N2L_Need_2_Log.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".\\Resources\\DBScriptFile.sql")]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\Resources\\DBScriptFile.sql")]
         public string dbscript_path {
             get {
                 return ((string)(this["dbscript_path"]));
-            }
-            set {
-                this["dbscript_path"] = value;
             }
         }
     }

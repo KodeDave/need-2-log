@@ -83,9 +83,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="cli\Cli.cs" />
+    <Compile Include="core\Controller.cs" />
     <Compile Include="core\Cript.cs" />
     <Compile Include="core\DBConnection.cs" />
     <Compile Include="core\Event\PasswordCheckEventArgs.cs" />
+    <Compile Include="core\QueryString.cs" />
     <Compile Include="gui\Login.cs">
       <SubType>Form</SubType>
     </Compile>

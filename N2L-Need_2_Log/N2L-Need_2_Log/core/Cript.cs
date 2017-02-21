@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 
 namespace N2L_Need_2_Log.core
 {
-    class Cript
+    static class Cript
     {
         public static string ComputeHash(string plainText, byte[] salt)
         {
