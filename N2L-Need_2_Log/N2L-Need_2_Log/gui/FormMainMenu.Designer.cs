@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMainMenu));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nuovoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -166,21 +167,21 @@
             // 
             this.iconegrandiToolStripMenuItem.Name = "iconegrandiToolStripMenuItem";
             this.iconegrandiToolStripMenuItem.ShowShortcutKeys = false;
-            this.iconegrandiToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.iconegrandiToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.iconegrandiToolStripMenuItem.Text = "icone &grandi";
             this.iconegrandiToolStripMenuItem.Click += new System.EventHandler(this.iconegrandiToolStripMenuItem_Click);
             // 
             // iconepiccoleToolStripMenuItem
             // 
             this.iconepiccoleToolStripMenuItem.Name = "iconepiccoleToolStripMenuItem";
-            this.iconepiccoleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.iconepiccoleToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.iconepiccoleToolStripMenuItem.Text = "Icone &piccole";
             this.iconepiccoleToolStripMenuItem.Click += new System.EventHandler(this.iconepiccoleToolStripMenuItem_Click);
             // 
             // listaToolStripMenuItem
             // 
             this.listaToolStripMenuItem.Name = "listaToolStripMenuItem";
-            this.listaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.listaToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.listaToolStripMenuItem.Text = "&Lista";
             this.listaToolStripMenuItem.Click += new System.EventHandler(this.listaToolStripMenuItem_Click);
             // 
@@ -206,6 +207,7 @@
             this.ClientSize = new System.Drawing.Size(500, 298);
             this.Controls.Add(this.listViewMainMenu);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMainMenu";
             this.Text = "MainMenu";

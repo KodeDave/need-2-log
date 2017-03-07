@@ -171,6 +171,8 @@
             this.Controls.Add(this.richTextBoxNote);
             this.Controls.Add(this.recordIcon);
             this.Name = "DetailedInfo";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.Text = "DetailedInfo";
             ((System.ComponentModel.ISupportInitialize)(this.recordIcon)).EndInit();
             this.ResumeLayout(false);
