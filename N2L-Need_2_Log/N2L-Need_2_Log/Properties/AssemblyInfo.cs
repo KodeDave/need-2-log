@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set di attributi. Modificare i valori di questi attributi per modificare le informazioni
 // associate a un assembly.
 [assembly: AssemblyTitle("N2L-Need_2_Log")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Questo sistema permette di salvare tutte le informazioni relative ad un proprio account proteggendole tramite una singola password. L'applicativo si pone dunque l'obiettivo di semplificare la gestione della propria identità digitale, senza dover scendere a compromessi per la sicurezza. Per ogni eventuale informazione aggiuntiva scrivere a Davide Quattrocchi a questo indirizzo e-mail: \"d.quattrocchi@campus.uniurb.it\"")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Quattrocchi Davide")]
 [assembly: AssemblyProduct("N2L-Need_2_Log")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright © 2017 Quattrocchi Davide")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

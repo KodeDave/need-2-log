@@ -1,14 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Security.Cryptography;
 
 namespace N2L_Need_2_Log.core
 {
+    /// <summary>
+    /// Fornisce dei metodi static che permettono di calcolare un hash, confermarlo e generare randomicamente una password
+    /// restituiscono null se qualcosa non è corretto.    /// </summary>
     static class Cript
     {
+        /// <summary>
+        /// Calcola il valore hash relativo ad una password
+        /// </summary>
+        /// <param name="plainText">la password in chiaro di cui calcolare l'hash</param>
+        /// <param name="salt">i valori dei salt bytes. null se non presenti</param>
+        /// <returns>l'hash relativo a plainText</returns>
         public static string ComputeHash(string plainText, byte[] salt)
         {
             int minSaltLength = 4;
@@ -48,6 +54,12 @@ namespace N2L_Need_2_Log.core
 
             return Convert.ToBase64String(result);
         }
+        /// <summary>
+        /// Controlla se un dato hash è corrispondente ad una data password
+        /// </summary>
+        /// <param name="plainText">la password da verificare</param>
+        /// <param name="hashValue">l'hash da confrontare</param>
+        /// <returns>true se combaciano. false altrimenti.</returns>
         public static bool Confirm(string plainText, string hashValue)
         {
             byte[] hashBytes = Convert.FromBase64String(hashValue);
@@ -58,7 +70,13 @@ namespace N2L_Need_2_Log.core
             string newHash = ComputeHash(plainText, saltBytes);
             return String.Equals(newHash, hashValue);
         }
-        public static string generateRandomly(int length, int nNAC)
+        /// <summary>
+        /// Metodo utile a creare una password peudorandomicamente
+        /// </summary>
+        /// <param name="length">lunghezza della password desiderata</param>
+        /// <param name="nNAC">numero di caratteri non alfanumerici che è possibile immettere</param>
+        /// <returns>password generata</returns>
+        public static string GenerateRandomly(int length, int nNAC)
         {
             const string ANC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             const string NANC = "!@#$%^&*()_-+=[{]};:<>|./?";
@@ -141,10 +159,8 @@ namespace N2L_Need_2_Log.core
                 {
                     return null;
                 }
-
             }
             return new string(result);
-            //System.Security.Cryptography.PasswordDeriveBytes()
         }
     }
 }

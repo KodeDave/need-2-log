@@ -87,15 +87,71 @@
     <Compile Include="core\Cript.cs" />
     <Compile Include="core\DBConnection.cs" />
     <Compile Include="core\Event\PasswordCheckEventArgs.cs" />
+    <Compile Include="core\IDBConnection.cs" />
     <Compile Include="core\QueryString.cs" />
-    <Compile Include="gui\Login.cs">
+    <Compile Include="core\Singleton.cs" />
+    <Compile Include="gui\DetailedInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="gui\Login.Designer.cs">
-      <DependentUpon>Login.cs</DependentUpon>
+    <Compile Include="gui\DetailedInfo.Designer.cs">
+      <DependentUpon>DetailedInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\FormAboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\FormAboutBox.Designer.cs">
+      <DependentUpon>FormAboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\FormFirstAccess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\FormFirstAccess.Designer.cs">
+      <DependentUpon>FormFirstAccess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\FormLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\FormLogin.Designer.cs">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\FormMainMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\FormMainMenu.Designer.cs">
+      <DependentUpon>FormMainMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\MDIParent1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\MDIParent1.Designer.cs">
+      <DependentUpon>MDIParent1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\FormOption.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\FormOption.Designer.cs">
+      <DependentUpon>FormOption.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="gui\DetailedInfo.resx">
+      <DependentUpon>DetailedInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\FormAboutBox.resx">
+      <DependentUpon>FormAboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\FormLogin.resx">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\FormMainMenu.resx">
+      <DependentUpon>FormMainMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\MDIParent1.resx">
+      <DependentUpon>MDIParent1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\FormOption.resx">
+      <DependentUpon>FormOption.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -106,6 +162,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="core\DataStruct\json1.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

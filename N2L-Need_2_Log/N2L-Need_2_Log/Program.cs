@@ -16,7 +16,8 @@ namespace N2L_Need_2_Log
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            core.Controller.CheckSettings();
+            Application.Run(new N2L_Need_2_Log.gui.FormMainMenu());
         }
     }
 }

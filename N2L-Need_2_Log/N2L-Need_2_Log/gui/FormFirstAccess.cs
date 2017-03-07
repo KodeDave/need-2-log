@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace N2L_Need_2_Log
+namespace N2L_Need_2_Log.gui
 {
-    public partial class Form1 : Form
+    public partial class FormFirstAccess : Form
     {
-        public Form1()
+        public FormFirstAccess()
         {
             InitializeComponent();
         }

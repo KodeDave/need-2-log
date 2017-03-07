@@ -61,7 +61,23 @@ namespace N2L_Need_2_Log.Properties {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a .
+        ///   Cerca una stringa localizzata simile a BEGIN TRANSACTION;
+        ///CREATE TABLE &quot;username&quot; (
+        ///	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+        ///	`value`	TEXT,
+        ///	`entry_id`	INTEGER NOT NULL UNIQUE,
+        ///	FOREIGN KEY(`entry_id`) REFERENCES entry(id)
+        ///);
+        ///CREATE TABLE &quot;url&quot; (
+        ///	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+        ///	`value`	TEXT,
+        ///	`entry_id`	INTEGER UNIQUE,
+        ///	FOREIGN KEY(`entry_id`) REFERENCES entry(id)
+        ///);
+        ///CREATE TABLE &quot;type&quot; (
+        ///	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+        ///	`name`	TEXT NOT NULL UNIQUE,
+        ///	`default_icon`	TEXT NOT NULL  [stringa troncata]&quot;;.
         /// </summary>
         internal static string DBScriptFile {
             get {

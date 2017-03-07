@@ -8,94 +8,218 @@ using N2L_Need_2_Log.Properties;
 
 namespace N2L_Need_2_Log.core
 {
-    class DBConnection
+    /// <summary>
+    /// 
+    /// </summary>
+    class DBConnection //: IDBConnection
     {
-        private static DBConnection instance;
-        private ConnectionState Connected { get; set; }
-        private SQLiteConnection conn;
 
+        private static /*new*/ DBConnection instance;
+        /// <summary>
+        /// 
+        /// </summary>
+        private SQLiteConnection conn;
+        public ConnectionState isConnected { get { return instance.conn.State; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
         private DBConnection()
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static DBConnection Connect
         {
             get
             {
                 if (instance == null)
                 {
-                    string connectionString = "Data Source=" + Settings.Default.dbpath +
-                        "; Version=3; Password = " + Settings.Default.password_hash + ";";
+                    string connectionString = "Data Source=" + Settings.Default.dbpath + "; Version=3; Password=" + Settings.Default.password;
                     instance = new DBConnection();
-                    instance.Connected = ConnectionState.Closed;
                     instance.conn = new SQLiteConnection(connectionString);
                     try
                     {
-                        switch (Settings.Default.db_exist)
+                        switch (System.IO.File.Exists(Settings.Default.dbpath))
+                        //switch (Settings.Default.db_exist)
                         {
                             case true:
                                 instance.conn.Open();
-                                instance.Connected = instance.conn.State;
                                 break;
                             default:
-                                instance.Connected = instance.Create();
+                                instance.Create();
                                 break;
                         }
                     }
-                    catch (SQLiteException)
+                    catch (SQLiteException sqle)
                     {
-                        throw;
+                        if (sqle.ResultCode == SQLiteErrorCode.Auth ||
+                                sqle.ResultCode == SQLiteErrorCode.Auth ||
+                                sqle.ResultCode == SQLiteErrorCode.IoErr_Auth)
+                        {
+
+                        }
+
                     }
+                }
+                if (instance.isConnected != ConnectionState.Open)
+                {
+                    instance.conn.Open();
                 }
                 return instance;
             }
         }
-        public ConnectionState CheckConnection()
+        /// <summary>
+        /// 
+        /// </summary>
+        public ConnectionState Disconnect
         {
-            return Connected;
+            get
+            {
+                instance.conn.Close();
+                return instance.isConnected;
+            }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private ConnectionState Create()
         {
             SQLiteConnection.CreateFile(Settings.Default.dbpath);
-            conn.Open();
-            SQLiteCommand query = new SQLiteCommand(System.IO.File.ReadAllText(Settings.Default.dbscript_path),
-                instance.conn);
-            query.ExecuteNonQuery();
-            instance.conn.ChangePassword(Settings.Default.password_hash);
+            try
+            {
+                instance.conn.Open();
+                SQLiteCommand query = new SQLiteCommand(System.IO.File.ReadAllText(Settings.Default.dbscript_path),
+                    instance.conn);
+                query.ExecuteNonQuery();
+                instance.conn.ChangePassword(Settings.Default.password_hash);
+            }
+            catch (SQLiteException sqle)
+            {
+                switch (sqle.ResultCode)
+                {
+                    ///case(SQLiteErrorCode.)
+                }
+            }
             return conn.State;
         }
-        public bool Insert()
+
+        /// <summary>
+        /// Metodo utile ad ottenere una istanza di tipo System.Data.SQLite.SQLiteDataReader contenente tutti
+        /// i record presenti nel database locale con le loro informazioni generali, leggibile tramite
+        /// una istanza di System.Data.Common.DbDataReader
+        /// </summary>
+        /// <returns>System.DataSqlite.SQLiteDataReader : System.Data.Common.DbDataReader</returns>
+        public SQLiteDataReader GetMainView()
         {
-            SQLiteCommand sql = new SQLiteCommand("", conn);
-            sql.ExecuteNonQuery();
+            return new SQLiteCommand(QueryString.Create(Querable.MainMenuItems), conn).ExecuteReader();
+        }
+        /// <summary>
+        /// Metodo utile ad ottenere una istanza di tipo System.Data.SQLite.SQLiteDataReader contenente tutte
+        /// le informazioni presenti nel database locale relative al record indicato 
+        /// leggibile tramite una istanza di System.Data.Common.DbDataReader
+        /// </summary>
+        /// <param name="entryId">identificativo del record nel database</param>
+        /// <returns>System.DataSqlite.SQLiteDataReader : System.Data.Common.DbDataReader</returns>
+        public SQLiteDataReader GetRecordInfo(int entryId)
+        {
+            return new SQLiteCommand(QueryString.Create(Querable.DetailedInfo, entryId), conn).ExecuteReader();
+        }
+        /// <summary>
+        /// Metodo utile ad ottenere dal db tutti i tipi predefiniti già esistenti e preconfigurati
+        /// leggibili tramite una istanza di System.Data.Common.DbDataReader
+        /// </summary>
+        /// <returns>System.DataSqlite.SQLiteDataReader : System.Data.Common.DbDataReader</returns>
+        public SQLiteDataReader GetRecordsType()
+        {
+
+            return new SQLiteCommand(QueryString.Create(Querable.AdmittedType), conn).ExecuteReader();
+        }
+
+        /// <summary>
+        /// Metodo utile a creare un nuovo record all'interno del database
+        /// </summary>
+        /// <param name="entryName">nome del record</param>
+        /// <param name="typeId">tipologia del record</param>
+        /// <param name="noteValue">note aggiuntive</param>
+        /// <param name="passwordValue">password del record</param>
+        /// <param name="urlValue">url del sito associato al record</param>
+        /// <param name="usernameValue">username associata al record</param>
+        /// <returns>numero di righe inserite a seguito del comando</returns>
+        public int Insert(string entryName, int typeId, string noteValue, string passwordValue, string urlValue, string usernameValue)
+        {
+            string queryString = QueryString.Create(Querable.CreateNewEntry, entryName, typeId, noteValue, passwordValue, urlValue, usernameValue);
+
+            SQLiteCommand sql = new SQLiteCommand(queryString, instance.conn);
+
+            return sql.ExecuteNonQuery();
+        }
+        /// <summary>
+        /// Metodo utile ad aggiornare/modificare un record già esistente nel database
+        /// </summary>
+        /// <param name="entryId">id del record all'interno del database</param>
+        /// <param name="entryName">nome del record</param>
+        /// <param name="iconName">nome dell'icona associata al record</param>
+        /// <param name="noteValue">note aggiuntive</param>
+        /// <param name="passwordValue">password del record</param>
+        /// <param name="urlValue">url del sito associato al record</param>
+        /// <param name="usernameValue">username associato al record</param>
+        /// <returns>numero di righe modificate a seguito del comando</returns>
+        public int Update(int entryId, string entryName, string iconName, string noteValue, string passwordValue, string urlValue, string usernameValue)
+        {
+            string queryString = QueryString.Create(Querable.UpdateEntry, entryId, entryName, iconName, noteValue, passwordValue, urlValue, usernameValue);
+
+            SQLiteCommand sql = new SQLiteCommand(queryString, instance.conn);
+            return sql.ExecuteNonQuery();
+        }
+        /// <summary>
+        /// Metodo utile a cancellare tutti gli elementi associati ad un record dal database.
+        /// </summary>
+        /// <param name="EntryId"> </param>
+        /// <returns>numero di righe eliminate a seguito del comando</returns>
+        public int Erase(int entryId)
+        {
+            string queryString = QueryString.Create(Querable.EraseEntry, entryId);
+
+            SQLiteCommand sql = new SQLiteCommand(queryString, instance.conn);
+
+            return sql.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// Metodo utile a creare una copia di backup del database
+        /// </summary>
+        /// <param name="fullName"> nome completo di path del database di backup</param>
+        /// <param name="password"> password che si vuole settare per proteggere il nuovo db</param>
+        /// <returns>true</returns>
+        public bool Backup(string fullName, string password)
+        {
+            SQLiteConnection.CreateFile(fullName);
+            using (var destination = new SQLiteConnection("Data Source=" + fullName + "; Version=3;"))
+            {
+                destination.Open();
+                if (!String.IsNullOrEmpty(password))
+                {
+                    destination.ChangePassword(password);
+                }
+                instance.conn.BackupDatabase(destination, "main", "main", -1, null, 500);
+                destination.Close();
+                destination.Dispose();
+            }
             return true;
         }
-        public DataTable getData()
+        /// <summary>
+        /// Metodo utile a modificare/assegnare una nuova password a protezione del database locale.
+        /// </summary>
+        /// <param name="newPassword"> nuova password</param>
+        /// <returns></returns>
+        public bool ChangeSettings(string newPassword)
         {
-            DataTable dt = new DataTable();
-            var da = new SQLiteDataAdapter();
-            ////////////////////////////////////////
-            /*DataSet ds = new System.Data.DataSet();
-            var da = new SQLiteDataAdapter(sql, conn);
-            da.Fill(ds);
-            Grid.DataSource = ds.Tables[0].DefaultView;
-            return ds;*/
-            return instance.conn.GetSchema();
-        }
-        public bool Update()
-        {
-            return true;
-        }
-        public bool Erase()
-        {
-            return true;
-        }
-        public bool Backup()
-        {
-            return true;
-        }
-        public bool ChangeSettings()
-        {
+            instance.conn.ChangePassword(newPassword);
             return true;
         }
     }

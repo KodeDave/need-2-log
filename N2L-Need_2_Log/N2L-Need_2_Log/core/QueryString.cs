@@ -66,15 +66,15 @@ namespace N2L_Need_2_Log.core
             return toReturn;
         }
         /// <summary>
-        /// 
+        /// Overload per richiedere l'inserimento di un nuovo record.
         /// </summary>
-        /// <param name="query"></param>
-        /// <param name="entryName"></param>
-        /// <param name="typeId"></param>
-        /// <param name="noteValue"></param>
-        /// <param name="passwordValue"></param>
-        /// <param name="urlValue"></param>
-        /// <param name="usernameValue"></param>
+        /// <param name="query">CreateNewEntry</param>
+        /// <param name="entryName">nome del record assegnato</param>
+        /// <param name="typeId">tipologia base di account</param>
+        /// <param name="noteValue">valore della nota associato</param>
+        /// <param name="passwordValue">valore della password associata</param>
+        /// <param name="urlValue">valore dell'URL associato</param>
+        /// <param name="usernameValue">valore dell'username associato</param>
         /// <returns></returns>
         public static string Create(Querable query, string entryName, int typeId, string noteValue, string passwordValue, string urlValue, string usernameValue)
         {
@@ -88,19 +88,18 @@ namespace N2L_Need_2_Log.core
             return toReturn;
         }
         /// <summary>
-        /// 
+        /// Overload per richiedere la modifica di un record già esistente
         /// </summary>
-        /// <param name="query"></param>
-        /// <param name="entryId"></param>
-        /// <param name="entryName"></param>
-        /// <param name="iconName"></param>
-        /// <param name="typeId"></param>
-        /// <param name="noteValue"></param>
-        /// <param name="passwordValue"></param>
-        /// <param name="urlValue"></param>
-        /// <param name="usernameValue"></param>
+        /// <param name="query">UpdateEntry</param>
+        /// <param name="entryId">id del record da modificare</param>
+        /// <param name="entryName">nuovo nome da associare</param>
+        /// <param name="iconName">nuova icona da associare</param>
+        /// <param name="noteValue">nuovo valore delle note da associare</param>
+        /// <param name="passwordValue">nuovo valore della password da associare</param>
+        /// <param name="urlValue">nuovo valore dell'url da associare</param>
+        /// <param name="usernameValue">nuovo username da associare</param>
         /// <returns></returns>
-        public static string Create(Querable query, int entryId, string entryName, string iconName, int typeId, string noteValue, string passwordValue, string urlValue, string usernameValue)
+        public static string Create(Querable query, int entryId, string entryName, string iconName, string noteValue, string passwordValue, string urlValue, string usernameValue)
         {
             string toReturn = string.Empty;
 
@@ -113,129 +112,124 @@ namespace N2L_Need_2_Log.core
         }
 
         /// <summary>
-        /// 
+        /// Restituisce la query per render noti tutti i tipi predefiniti disponibili
         /// </summary>
         /// <returns>Query per accedere a tutta la view type</returns>
         private static string AdmittedType()
         {
-            return ("SELECT * FROM type ORDER BY id ASC LIMIT 0, 50000;");
+            return ("SELECT * FROM `type` ORDER BY `id` ASC LIMIT 0, 50000;");
         }
         /// <summary>
-        /// 
+        /// Restituisce la query per rendere noti tutti i record presenti e impostare il main menu
         /// </summary>
-        /// <returns></returns>
+        /// <returns>query per accedere a tutta la view main</returns>
         private static string MainMenuItems()
         {
-            return ("SELECT * FROM main ORDER BY ID ASC LIMIT 0, 50000;");
+            return ("SELECT * FROM `main` ORDER BY `ID` ASC LIMIT 0, 50000;");
 
         }
         /// <summary>
-        /// 
+        /// Restituisce la query per rendere note tutte le informazioni relative ad un record
         /// </summary>
-        /// <param name="entryId"></param>
-        /// <returns></returns>
+        /// <param name="entryId">id del record da ricercare</param>
+        /// <returns>query per accedere alla view DetailedInfo</returns>
         private static string DetailedInfo(int entryId)
         {
-            return ("SELECT * FROM DetailedInfo "+
-                ((entryId > 0)?(" WHERE ID = " + entryId):("")) +
+            return ("SELECT * FROM `DetailedInfo`" +
+                ((entryId > 0 || !entryId.Equals(null)) ? (" WHERE `ID` = " + entryId) : ("")) +
                 " ORDER BY `ID` ASC LIMIT 0, 50000;");
-            //SELECT entry.id AS ID, entry.name AS NAME, icon.name AS IMAGE, note.value as NOTE, password.value AS PASSWORD,
-            //        url.value AS URL, username.value AS USERNAME
-            //    FROM entry, icon, note, password, url, username
-            //    WHERE icon.entry_id = entry.id AND note.entry_id = entry.id AND
-            //        password.entry_id = entry.id AND url.entry_id = entry.id AND username.entry_id = entry.id;
-            //"SELECT entry.id AS ID, entry.name AS NAME, icon.name AS IMAGE, url.value AS URL " +
-            //    "FROM entry, icon, url WHERE icon.entry_id = entry.id AND url.entry_id = entry.id;"
         }
         /// <summary>
-        /// 
+        /// Restituisce la query per inserire un nuovo recod nel db
         /// </summary>
-        /// <param name="entryName"></param>
-        /// <param name="typeId"></param>
-        /// <param name="noteValue"></param>
-        /// <param name="passwordValue"></param>
-        /// <param name="urlValue"></param>
-        /// <param name="usernameValue"></param>
-        /// <returns></returns>
+        /// <param name="entryName">nuovo nome da associare</param>
+        /// <param name="typeId">tipologia base di account</param>
+        /// <param name="noteValue">nuovo valore delle note da associare</param>
+        /// <param name="passwordValue">nuovo valore della password da associare</param>
+        /// <param name="urlValue">nuovo valore dell'url da associare</param>
+        /// <param name="usernameValue">nuovo username da associare</param>
+        /// <returns>query per inserire in tutte le tabelle i valori relativi</returns>
         private static string CreateNewEntry(string entryName, int typeId, string noteValue, string passwordValue, string urlValue, string usernameValue)
         {
-            string entry = (String.IsNullOrEmpty(entryName)) ? ("'Record_' + (SELECT max(id) + 1 FROM entry)") : ('\'' + entryName + '\'');
+            string entry = (String.IsNullOrEmpty(entryName)) ? ("(SELECT PRINTF(\'Record_%d\', (SELECT max(id) + 1 FROM `entry`)))") : ('\'' + entryName + '\'');
             int type = (typeId.Equals(null)) ? (1) : (typeId);
             string note = (String.IsNullOrEmpty(noteValue)) ? ("NULL") : ('\'' + noteValue + '\'');
             string password = (String.IsNullOrEmpty(passwordValue)) ? ("NULL") : ('\'' + passwordValue + '\'');
-            string url = (String.IsNullOrEmpty(urlValue)) ? ("SELECT url FROM type WHERE type.id = (SELECT type_id FROM entry WHERE entry.id = (SELECT max(id) FROM entry)))")
-                                                : ('\'' + urlValue + '\'');
-            string username = (usernameValue.Equals(null)) ? ("NULL") : ('\'' + usernameValue + '\'');
+            string url = (String.IsNullOrEmpty(urlValue) || urlValue.Equals("NULL")) ?
+                    ("SELECT `url` FROM `type` WHERE `type`.`id` = " +
+                        "(SELECT `type_id` FROM `entry` WHERE `entry`.`id` = " +
+                            "(SELECT max(id) FROM `entry`))") :
+                    ('\'' + urlValue + '\'');
+            string username = (String.IsNullOrEmpty(usernameValue)) ? ("NULL") : ('\'' + usernameValue + '\'');
 
-            return String.Format("BEGIN TRANSACTION; " +
-                "INSERT INTO `entry` VALUES ((SELECT max(id) + 1 FROM entry), {0}, {1}); " +
-                "INSERT INTO icon VALUES ((SELECT max(id) + 1 FROM icon), (SELECT max(id) FROM entry), " +
-                    "(SELECT default_icon FROM type WHERE type.id = (SELECT type_id FROM entry WHERE entry.id = (SELECT max(id) FROM entry))));" +
-                "INSERT INTO note VALUES ((SELECT max(id) + 1 FROM note),{2},(SELECT max(id) FROM entry));" +
-                "INSERT INTO password VALUES ((SELECT max(id) + 1 FROM password),'{3}',(SELECT max(id) FROM entry));" +
-                "INSERT INTO url VALUES ((SELECT max(id) + 1 FROM url), {4},SELECT max(id) FROM entry));" +
-                "INSERT INTO username VALUES ((SELECT max(id) + 1 FROM username),'{5}',(SELECT max(id) FROM entry)); " +
+            return String.Format("BEGIN TRANSACTION;\n" +
+                "INSERT INTO `entry` VALUES ((SELECT max(id) + 1 FROM `entry`), {0}, {1});\n" +
+                "INSERT INTO `icon` VALUES ((SELECT max(id) + 1 FROM `icon`), (SELECT max(id) FROM `entry`)," +
+                    "(SELECT `default_icon` FROM `type` WHERE `type`.`id` = (SELECT `type_id` FROM `entry` WHERE `entry`.`id` = (SELECT max(id) FROM `entry`))));\n" +
+                "INSERT INTO `note` VALUES ((SELECT max(id) + 1 FROM `note`),{2},(SELECT max(id) FROM `entry`));\n" +
+                "INSERT INTO `password` VALUES ((SELECT max(id) + 1 FROM `password`),{3},(SELECT max(id) FROM `entry`));\n" +
+                "INSERT INTO `url` VALUES ((SELECT max(id) + 1 FROM `url`), ({4}), (SELECT max(id) FROM `entry`));\n" +
+                "INSERT INTO `username` VALUES ((SELECT max(id) + 1 FROM `username`),{5},(SELECT max(id) FROM `entry`));\n" +
                 "COMMIT;", entry, type, note, password, url, username);
         }
         /// <summary>
-        /// 
+        /// Restituisce la query per eliminare tutte le informazioni riferite ad un record
         /// </summary>
-        /// <param name="entryId"></param>
-        /// <returns></returns>
+        /// <param name="entryId">id del record da eliminare</param>
+        /// <returns>query per eliminare i dati da ogni tabella</returns>
         private static string EraseEntry(int entryId)
         {
-            return String.Format("BEGIN TRANSACTION; " +
-                "DELETE FROM entry WHERE id = {0}; " +
-                "DELETE FROM note WHERE id = {0}; " +
-                "DELETE FROM password WHERE id = {0}; " +
-                "DELETE FROM url WHERE id = {0}; " +
-                "DELETE FROM username WHERE id = {0}; " +
+            return String.Format("BEGIN TRANSACTION;\n" +
+                "DELETE FROM `entry` WHERE `id` = {0};\n" +
+                "DELETE FROM `note` WHERE `id` = {0};\n" +
+                "DELETE FROM `password` WHERE `id` = {0};\n" +
+                "DELETE FROM `url` WHERE `id` = {0};\n" +
+                "DELETE FROM `username` WHERE `id` = {0};\n" +
                 "COMMIT;", entryId);
         }
         /// <summary>
-        /// 
+        /// Restituisce la query per modificare i dati specificati di un record
         /// </summary>
-        /// <param name="entryId"></param>
-        /// <param name="entryName"></param>
-        /// <param name="iconName"></param>
-        /// <param name="noteValue"></param>
-        /// <param name="passwordValue"></param>
-        /// <param name="urlValue"></param>
-        /// <param name="usernameValue"></param>
-        /// <returns></returns>
+        /// <param name="entryId">id del record da modificare</param>
+        /// <param name="entryName">nuovo nome da associare</param>
+        /// <param name="iconName">nuova icona da associare</param>
+        /// <param name="noteValue">nuovo valore delle note da associare</param>
+        /// <param name="passwordValue">nuovo valore della password da associare</param>
+        /// <param name="urlValue">nuovo valore dell'url da associare</param>
+        /// <param name="usernameValue">nuovo username da associare</param>
+        /// <returns>query per modificare i dati di un record nelle tabelle specificate</returns>
         private static string UpdateEntry(int entryId, string entryName, string iconName, string noteValue, string passwordValue, string urlValue, string usernameValue)
         {
-            //
             string toReturn = String.Empty;
             if (!String.IsNullOrEmpty(entryName))
             {
-                toReturn = String.IsNullOrEmpty(toReturn) ? "BEGIN TRANSACTION; " : toReturn;
-                toReturn = String.Concat(toReturn, String.Format("UPDATE entry SET name = {0} WHERE id = {1}; ", entryName, entryId));
+                toReturn = String.IsNullOrEmpty(toReturn) ? "BEGIN TRANSACTION;\n" : toReturn;
+                toReturn = String.Concat(toReturn, String.Format("UPDATE `entry` SET `name` = '{0}' WHERE `id` = {1};\n", entryName, entryId));
             }
             if (!String.IsNullOrEmpty(iconName))
             {
-                toReturn = String.IsNullOrEmpty(toReturn) ? "BEGIN TRANSACTION; " : toReturn;
-                toReturn = String.Concat(toReturn, String.Format("UPDATE icon SET name = {0} WHERE id = {1}; ", iconName, entryId));
+                toReturn = String.IsNullOrEmpty(toReturn) ? "BEGIN TRANSACTION;\n" : toReturn;
+                toReturn = String.Concat(toReturn, String.Format("UPDATE `icon` SET `name` = '{0}' WHERE `id` = {1};\n", iconName, entryId));
             }
             if (!String.IsNullOrEmpty(noteValue))
             {
-                toReturn = String.IsNullOrEmpty(toReturn) ? "BEGIN TRANSACTION; " : toReturn;
-                toReturn = String.Concat(toReturn, String.Format("UPDATE note SET value = {0} WHERE id = {1}; ", noteValue, entryId));
+                toReturn = String.IsNullOrEmpty(toReturn) ? "BEGIN TRANSACTION;\n" : toReturn;
+                toReturn = String.Concat(toReturn, String.Format("UPDATE `note` SET `value` = '{0}' WHERE `id` = {1};\n", noteValue, entryId));
             }
             if (!String.IsNullOrEmpty(passwordValue))
             {
-                toReturn = String.IsNullOrEmpty(toReturn) ? "BEGIN TRANSACTION; " : toReturn;
-                toReturn = String.Concat(toReturn, String.Format("UPDATE password SET value = {0} WHERE id = {1}; ", passwordValue, entryId));
+                toReturn = String.IsNullOrEmpty(toReturn) ? "BEGIN TRANSACTION;\n" : toReturn;
+                toReturn = String.Concat(toReturn, String.Format("UPDATE `password` SET `value` = '{0}' WHERE `id` = {1};\n", passwordValue, entryId));
             }
             if (!String.IsNullOrEmpty(urlValue))
             {
-                toReturn = String.IsNullOrEmpty(toReturn) ? "BEGIN TRANSACTION; " : toReturn;
-                toReturn = String.Concat(toReturn, String.Format("UPDATE url SET value = {0} WHERE id = {1}; ", urlValue, entryId));
+                toReturn = String.IsNullOrEmpty(toReturn) ? "BEGIN TRANSACTION;\n" : toReturn;
+                toReturn = String.Concat(toReturn, String.Format("UPDATE `url` SET `value` = '{0}' WHERE `id` = {1};\n", urlValue, entryId));
             }
             if (!String.IsNullOrEmpty(usernameValue))
             {
-                toReturn = String.IsNullOrEmpty(toReturn) ? "BEGIN TRANSACTION; " : toReturn;
-                toReturn = String.Concat(toReturn, String.Format("UPDATE username SET value = {0} WHERE id = {1}; ", usernameValue, entryId));
+                toReturn = String.IsNullOrEmpty(toReturn) ? "BEGIN TRANSACTION;\n" : toReturn;
+                toReturn = String.Concat(toReturn, String.Format("UPDATE `username` SET `value` = '{0}' WHERE `id` = {1};\n", usernameValue, entryId));
             }
 
             if (!String.IsNullOrEmpty(toReturn))

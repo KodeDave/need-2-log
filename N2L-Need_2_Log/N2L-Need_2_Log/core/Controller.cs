@@ -1,28 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using System.Threading.Tasks;
 using N2L_Need_2_Log.Properties;
 
 namespace N2L_Need_2_Log.core
 {
+    /// <summary>
+    /// Fornisce due metodi static usati per mantenere aggiornate le impostazioni del sistema
+    /// </summary>
     public static class Controller
     {
+        /// <summary>
+        /// verifica che il database esista e modifica il valore db_exist in false nel caso in cui non esistesse
+        /// </summary>
         public static void CheckSettings()
         {
             if (!File.Exists(Settings.Default.dbpath))
             {
                 Settings.Default.db_exist = false;
             }
-            if(Settings.Default.password_hash.Length == 0)
+            else
             {
-                Settings.Default.password_hash = Cript.ComputeHash(Settings.Default.default_password, null); 
+                Settings.Default.db_exist = true;
             }
+            Settings.Default.logged = false;
+            Settings.Default.password = String.Empty;
         }    
+        /// <summary>
+        /// modifica il valore logged delle impostazioni in false
+        /// </summary>
         public static void OnClose()
         {
+            Settings.Default.password = String.Empty;
             Settings.Default.logged = false;
         }   
     }
