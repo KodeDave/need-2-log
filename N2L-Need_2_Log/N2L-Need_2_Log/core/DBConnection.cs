@@ -37,9 +37,10 @@ namespace N2L_Need_2_Log.core
             {
                 if (instance == null)
                 {
-                    string connectionString = "Data Source=" + Settings.Default.dbpath + "; Version=3; Password=" + Settings.Default.password;
-                    instance = new DBConnection();
-                    instance.conn = new SQLiteConnection(connectionString);
+                    string connectionString = "Data Source=" + Settings.Default.dbpath +
+                        "; Version=3; Password=" + Settings.Default.password;
+                        instance = new DBConnection();
+                        instance.conn = new SQLiteConnection(connectionString);
                     try
                     {
                         switch (System.IO.File.Exists(Settings.Default.dbpath))
@@ -55,12 +56,7 @@ namespace N2L_Need_2_Log.core
                     }
                     catch (SQLiteException sqle)
                     {
-                        if (sqle.ResultCode == SQLiteErrorCode.Auth ||
-                                sqle.ResultCode == SQLiteErrorCode.Auth ||
-                                sqle.ResultCode == SQLiteErrorCode.IoErr_Auth)
-                        {
-
-                        }
+                        throw sqle;
 
                     }
                 }
@@ -82,7 +78,6 @@ namespace N2L_Need_2_Log.core
                 return instance.isConnected;
             }
         }
-
         /// <summary>
         /// 
         /// </summary>

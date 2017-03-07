@@ -133,5 +133,17 @@ namespace N2L_Need_2_Log.Properties {
                 this["password"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("List")]
+        public global::System.Windows.Forms.View MainMenuView {
+            get {
+                return ((global::System.Windows.Forms.View)(this["MainMenuView"]));
+            }
+            set {
+                this["MainMenuView"] = value;
+            }
+        }
     }
 }

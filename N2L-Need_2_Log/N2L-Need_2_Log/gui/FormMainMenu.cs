@@ -16,6 +16,27 @@ namespace N2L_Need_2_Log.gui
         {
             InitializeComponent();
             this.Text = System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
+            this.listViewMainMenu.View = Properties.Settings.Default.MainMenuView;
+            switch(this.listViewMainMenu.View)
+            {
+                case (View.LargeIcon):
+                    this.iconegrandiToolStripMenuItem.Checked = true;
+                    this.iconepiccoleToolStripMenuItem.Checked = false;
+                    this.listaToolStripMenuItem.Checked = false;
+                    break;
+                case (View.SmallIcon):
+                    this.iconegrandiToolStripMenuItem.Checked = false;
+                    this.iconepiccoleToolStripMenuItem.Checked = true;
+                    this.listaToolStripMenuItem.Checked = false;
+                    break;
+                case (View.List):
+                    this.iconegrandiToolStripMenuItem.Checked = false;
+                    this.iconepiccoleToolStripMenuItem.Checked = false;
+                    this.listaToolStripMenuItem.Checked = true;
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -127,6 +148,33 @@ namespace N2L_Need_2_Log.gui
         private void FormMainMenu_FormClosing(object sender, FormClosingEventArgs e)
         {
             N2L_Need_2_Log.core.Controller.OnClose();
+        }
+
+        private void iconegrandiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.listViewMainMenu.View = View.LargeIcon;
+            Properties.Settings.Default.MainMenuView = this.listViewMainMenu.View;
+            this.iconegrandiToolStripMenuItem.Checked = true;
+            this.iconepiccoleToolStripMenuItem.Checked = false;
+            this.listaToolStripMenuItem.Checked = false;
+        }
+
+        private void iconepiccoleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.listViewMainMenu.View = View.SmallIcon;
+            Properties.Settings.Default.MainMenuView = this.listViewMainMenu.View;
+            this.iconegrandiToolStripMenuItem.Checked = false;
+            this.iconepiccoleToolStripMenuItem.Checked = true;
+            this.listaToolStripMenuItem.Checked = false;
+        }
+
+        private void listaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.listViewMainMenu.View = View.List;
+            Properties.Settings.Default.MainMenuView = this.listViewMainMenu.View;
+            this.iconegrandiToolStripMenuItem.Checked = false;
+            this.iconepiccoleToolStripMenuItem.Checked = false;
+            this.listaToolStripMenuItem.Checked = true;
         }
     }
 }

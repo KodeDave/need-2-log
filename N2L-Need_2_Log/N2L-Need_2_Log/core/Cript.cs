@@ -62,13 +62,18 @@ namespace N2L_Need_2_Log.core
         /// <returns>true se combaciano. false altrimenti.</returns>
         public static bool Confirm(string plainText, string hashValue)
         {
-            byte[] hashBytes = Convert.FromBase64String(hashValue);
-            int hashSize = 32;
-            byte[] saltBytes = new byte[hashBytes.Length - hashSize];
-            for (int i = 0; i < saltBytes.Length; i++)
-                saltBytes[i] = hashBytes[hashSize + i];
-            string newHash = ComputeHash(plainText, saltBytes);
-            return String.Equals(newHash, hashValue);
+            bool retVal = false;
+            if (!String.IsNullOrEmpty(hashValue))
+            {
+                byte[] hashBytes = Convert.FromBase64String(hashValue);
+                int hashSize = 32;
+                byte[] saltBytes = new byte[hashBytes.Length - hashSize];
+                for (int i = 0; i < saltBytes.Length; i++)
+                    saltBytes[i] = hashBytes[hashSize + i];
+                string newHash = ComputeHash(plainText, saltBytes);
+                retVal = String.Equals(newHash, hashValue);
+            }
+            return retVal;
         }
         /// <summary>
         /// Metodo utile a creare una password peudorandomicamente

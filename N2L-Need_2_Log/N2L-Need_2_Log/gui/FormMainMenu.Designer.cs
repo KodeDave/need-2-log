@@ -41,11 +41,11 @@
             this.esciToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listViewMainMenu = new System.Windows.Forms.ListView();
             this.visualizzaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iconegrandiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iconepiccoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listViewMainMenu = new System.Windows.Forms.ListView();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -152,19 +152,6 @@
             this.aboutToolStripMenuItem.Text = "&Informazioni su...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // listViewMainMenu
-            // 
-            this.listViewMainMenu.Activation = System.Windows.Forms.ItemActivation.TwoClick;
-            this.listViewMainMenu.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listViewMainMenu.Location = new System.Drawing.Point(0, 24);
-            this.listViewMainMenu.MultiSelect = false;
-            this.listViewMainMenu.Name = "listViewMainMenu";
-            this.listViewMainMenu.ShowGroups = false;
-            this.listViewMainMenu.Size = new System.Drawing.Size(500, 274);
-            this.listViewMainMenu.TabIndex = 1;
-            this.listViewMainMenu.UseCompatibleStateImageBehavior = false;
-            this.listViewMainMenu.ItemActivate += new System.EventHandler(this.listViewMainMenu_ItemActivate);
-            // 
             // visualizzaToolStripMenuItem
             // 
             this.visualizzaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -178,20 +165,37 @@
             // iconegrandiToolStripMenuItem
             // 
             this.iconegrandiToolStripMenuItem.Name = "iconegrandiToolStripMenuItem";
+            this.iconegrandiToolStripMenuItem.ShowShortcutKeys = false;
             this.iconegrandiToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.iconegrandiToolStripMenuItem.Text = "icone &grandi";
+            this.iconegrandiToolStripMenuItem.Click += new System.EventHandler(this.iconegrandiToolStripMenuItem_Click);
             // 
             // iconepiccoleToolStripMenuItem
             // 
             this.iconepiccoleToolStripMenuItem.Name = "iconepiccoleToolStripMenuItem";
             this.iconepiccoleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.iconepiccoleToolStripMenuItem.Text = "Icone &piccole";
+            this.iconepiccoleToolStripMenuItem.Click += new System.EventHandler(this.iconepiccoleToolStripMenuItem_Click);
             // 
             // listaToolStripMenuItem
             // 
             this.listaToolStripMenuItem.Name = "listaToolStripMenuItem";
             this.listaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.listaToolStripMenuItem.Text = "&Lista";
+            this.listaToolStripMenuItem.Click += new System.EventHandler(this.listaToolStripMenuItem_Click);
+            // 
+            // listViewMainMenu
+            // 
+            this.listViewMainMenu.Activation = System.Windows.Forms.ItemActivation.TwoClick;
+            this.listViewMainMenu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewMainMenu.Location = new System.Drawing.Point(0, 24);
+            this.listViewMainMenu.MultiSelect = false;
+            this.listViewMainMenu.Name = "listViewMainMenu";
+            this.listViewMainMenu.ShowGroups = false;
+            this.listViewMainMenu.Size = new System.Drawing.Size(500, 274);
+            this.listViewMainMenu.TabIndex = 1;
+            this.listViewMainMenu.UseCompatibleStateImageBehavior = false;
+            this.listViewMainMenu.ItemActivate += new System.EventHandler(this.listViewMainMenu_ItemActivate);
             // 
             // FormMainMenu
             // 
