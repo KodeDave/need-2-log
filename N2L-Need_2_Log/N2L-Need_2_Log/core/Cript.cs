@@ -27,13 +27,17 @@ namespace N2L_Need_2_Log.core
             }
             else
             {
-                Random r = new Random();
-                int SaltLength = r.Next(minSaltLength, maxSaltLength);
+                int SaltLength = 16;
+                //Random r = new Random();
+                //int SaltLength = r.Next(minSaltLength, maxSaltLength);
                 SaltBytes = new byte[SaltLength];
                 RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
                 rng.GetNonZeroBytes(SaltBytes);
                 rng.Dispose();
+
             }
+            //SaltBytes = new byte[Convert.FromBase64String(@"1_Am_@_s4lT").Length];
+            //SaltBytes = Convert.FromBase64String(@"1_Am_@_s4lT");
             byte[] plainData = ASCIIEncoding.UTF8.GetBytes(plainText);
             byte[] plainDataAndSalt = new byte[plainData.Length + SaltBytes.Length];
 

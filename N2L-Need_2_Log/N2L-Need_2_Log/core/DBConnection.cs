@@ -35,14 +35,14 @@ namespace N2L_Need_2_Log.core
         {
             get
             {
-                if (instance == null)
+                try
                 {
-                    string connectionString = "Data Source=" + Settings.Default.dbpath +
-                        "; Version=3; Password=" + Settings.Default.password;
+                    if (instance == null)
+                    {
+                        string connectionString = "Data Source=" + Settings.Default.dbpath +
+                            "; Version=3; Password=" + Settings.Default.password;
                         instance = new DBConnection();
                         instance.conn = new SQLiteConnection(connectionString);
-                    try
-                    {
                         switch (System.IO.File.Exists(Settings.Default.dbpath))
                         //switch (Settings.Default.db_exist)
                         {
@@ -53,16 +53,18 @@ namespace N2L_Need_2_Log.core
                                 instance.Create();
                                 break;
                         }
+                        instance.Test();
                     }
-                    catch (SQLiteException sqle)
+                    if (instance.isConnected != ConnectionState.Open)
                     {
-                        throw sqle;
-
+                        instance.conn.Open();
                     }
-                }
-                if (instance.isConnected != ConnectionState.Open)
+                }catch (SQLiteException sqle)
                 {
-                    instance.conn.Open();
+                    var a = instance.Disconnect;
+                    instance.conn.Dispose();
+                    instance = null;
+                    throw sqle;
                 }
                 return instance;
             }
@@ -76,6 +78,22 @@ namespace N2L_Need_2_Log.core
             {
                 instance.conn.Close();
                 return instance.isConnected;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private void Test()
+        {
+            try
+            {
+                var a = new SQLiteCommand("SELECT * FROM sqlite_master;", conn);
+                a.VerifyOnly();
+            }
+            catch (SQLiteException sqle)
+            {
+                throw sqle;
             }
         }
         /// <summary>
@@ -102,7 +120,7 @@ namespace N2L_Need_2_Log.core
             }
             return conn.State;
         }
-
+        
         /// <summary>
         /// Metodo utile ad ottenere una istanza di tipo System.Data.SQLite.SQLiteDataReader contenente tutti
         /// i record presenti nel database locale con le loro informazioni generali, leggibile tramite
