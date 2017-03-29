@@ -31,6 +31,7 @@ CREATE TABLE "type" (
 	INSERT INTO `type` VALUES (12,'LinkedIn','linkedin.png','www.linkedin.com');
 	INSERT INTO `type` VALUES (13,'Wordpress','wordpress.png','www.wordpress.com');
 	INSERT INTO `type` VALUES (14,'Esse3 Uniurb','uniurb.png','www.uniurb.esse3.cineca.it/auth/Logon.do');
+	INSERT INTO `type` VALUES (15,'GitHub','github.png','github.com');
 CREATE TABLE "password" (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`value`	TEXT,
