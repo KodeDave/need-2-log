@@ -1,37 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Data.Common;
+using System.Diagnostics;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using N2L_Need_2_Log.core.DataStruct;
 
 namespace N2L_Need_2_Log.gui
 {
+    /// <summary>
+    /// Classe che definisce il comportamento del form DetailedInfo
+    /// </summary>
     public partial class DetailedInfo : Form
     {
-        public DetailedInfo(int item)
+        private DBRecord record;
+        private static int item;
+
+        /// <summary>
+        /// Costruttore della classe DetailedInfo
+        /// </summary>
+        /// <param name="itemID"></param>
+        public DetailedInfo(int itemID)
         {
-//data["ID"]+data["NAME"]+data["IMAGE"]+data["NOTE"]+data["PASSWORD"]+data["URL"]+data["USERNAME"]);
             InitializeComponent();
-            core.DBConnection database = core.DBConnection.Connect;
-            System.Data.Common.DbDataReader data = database.GetRecordInfo(item);
-            while (data.Read())
-            {
-                
-                string name = data["NAME"].ToString();
-                this.Text = name + " - " + System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
-                this.labelName.Text = name;
-                string imagePath = @"..\..\Resources\pers\icon\" + data["IMAGE"];
-                this.recordIcon.Image = Image.FromFile(imagePath);
-                this.recordIcon.MaximumSize = new Size(128, 128);
-                this.richTextBoxNote.Text = data["NOTE"].ToString();
-                this.textBoxPassword.Text = data["PASSWORD"].ToString();
-                this.linkLabelUrl.Text = data["URL"].ToString();
-                this.textBoxUsername.Text = data["USERNAME"].ToString();
-            }
+            item = itemID;
         }
 
         private void buttonPassword_MouseDown(object sender, MouseEventArgs e)
@@ -41,34 +35,66 @@ namespace N2L_Need_2_Log.gui
                 textBoxPassword.UseSystemPasswordChar = false;
             }
         }
-
         private void buttonPassword_MouseUp(object sender, MouseEventArgs e)
         {
             textBoxPassword.UseSystemPasswordChar = true;
         }
-
         private void linkLabelUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
             {
-                System.Diagnostics.Process.Start(linkLabelUrl.Text);
+                Process.Start(linkLabelUrl.Text);
             }
             catch
-                (
-                 System.ComponentModel.Win32Exception noBrowser)
+                (Win32Exception noBrowser)
             {
                 if (noBrowser.ErrorCode == -2147467259)
                     MessageBox.Show(noBrowser.Message);
             }
-            catch (System.Exception other)
+            catch (Exception other)
             {
-                MessageBox.Show(other.Message);
+                MessageBox.Show(this, "Error with your browser.",other.Message, MessageBoxButtons.OK);
+                this.linkLabelUrl.Enabled = false;
             }
         }
-
         private void buttonOk_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+        private void DetailedInfo_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                core.DBConnection database = core.DBConnection.Connect;
+                using (DbDataReader data = database.GetRecordInfo(item))
+                {
+                    while (data.Read())
+                    {
+                        record = new DBRecord(item, data["NAME"].ToString(), 
+                            data["IMAGE"].ToString(), data["NOTE"].ToString(), 
+                            data["PASSWORD"].ToString(), data["URL"].ToString(), 
+                            data["USERNAME"].ToString(), Convert.ToInt32(data["TYPE_ID"].ToString()));
+                        this.Text = record.Name + " - " + Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
+                        this.labelName.Text = record.Name;
+                        this.recordIcon.Image = Image.FromFile(@"..\..\Resources\pers\icon\" + record.Icon);
+                        this.recordIcon.MaximumSize = new Size(128, 128);
+                        this.richTextBoxNote.Text = record.Note;
+                        this.textBoxPassword.Text = record.Password;
+                        this.linkLabelUrl.Text = record.Url;
+                        this.textBoxUsername.Text = record.Username;
+                    }
+                }
+            }
+            catch (System.Data.SQLite.SQLiteException sqle)
+            {
+                MessageBox.Show(this, sqle.Message, "Errore SQL n.° " + sqle.ErrorCode, MessageBoxButtons.OK);
+            this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Generic Error!", MessageBoxButtons.OK);
+                this.Close();
+            }
         }
     }
 }

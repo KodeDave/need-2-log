@@ -12,7 +12,7 @@ namespace N2L_Need_2_Log.gui
 {
     public partial class FormModify : Form
     {
-        public FormModify()
+        public FormModify(int itemID)
         {
             InitializeComponent();
         }

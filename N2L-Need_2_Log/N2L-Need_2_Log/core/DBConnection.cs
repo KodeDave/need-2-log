@@ -1,35 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Data;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.Common;
 using System.Data.SQLite;
 using N2L_Need_2_Log.Properties;
 
 namespace N2L_Need_2_Log.core
 {
     /// <summary>
-    /// 
+    /// Rappresenza la connessione all'origine dati dell'applicazione, effettuabile tramite
+    /// una sola possibile istanza dell'oggetto.
+    /// L'unicità della connessione è assicurata tramite il pattern Singleton
     /// </summary>
-    class DBConnection //: IDBConnection
+    public class DBConnection : IDBRequest
+
     {
-
-        private static /*new*/ DBConnection instance;
-        /// <summary>
-        /// 
-        /// </summary>
         private SQLiteConnection conn;
-        public ConnectionState isConnected { get { return instance.conn.State; } }
-
         /// <summary>
-        /// 
+        /// Rappresenta l'unica istanza di DBConnection creabile
         /// </summary>
-        private DBConnection()
-        {
-        }
+        protected static DBConnection instance;
+       
+        private DBConnection() { }
 
         /// <summary>
-        /// 
+        /// Descrive lo stato corrente della connessione all'origine dati dell'applicazione
+        /// </summary>
+        public ConnectionState isConnected { get { return instance.conn.State; } }
+               
+        /// <summary>
+        /// Fornisce accesso alla connessione alla origine dati della applicazione
         /// </summary>
         public static DBConnection Connect
         {
@@ -43,8 +43,7 @@ namespace N2L_Need_2_Log.core
                             "; Version=3; Password=" + Settings.Default.password;
                         instance = new DBConnection();
                         instance.conn = new SQLiteConnection(connectionString);
-                        switch (System.IO.File.Exists(Settings.Default.dbpath))
-                        //switch (Settings.Default.db_exist)
+                        switch (File.Exists(Settings.Default.dbpath))
                         {
                             case true:
                                 instance.conn.Open();
@@ -70,20 +69,27 @@ namespace N2L_Need_2_Log.core
             }
         }
         /// <summary>
-        /// 
+        /// Permette la disconnessione dalla origine data della applicazione, chiudendo la comunicazione in modo sicuro
         /// </summary>
         public ConnectionState Disconnect
         {
             get
             {
-                instance.conn.Close();
-                return instance.isConnected;
+                try
+                {
+                    instance.conn.Close();
+                    return instance.isConnected;
+                }
+                catch (SQLiteException sqle)
+                {
+                    throw sqle;
+                }
             }
         }
         /// <summary>
-        /// 
+        /// Verifica che i parametri inseriti (per esempio la password) siano corretti e che la connessione sia apribile.
+        /// Una System.Data.SQLite.SQLiteException viene prodotta se degli errori sono riscontrati.
         /// </summary>
-        /// <returns></returns>
         private void Test()
         {
             try
@@ -97,39 +103,43 @@ namespace N2L_Need_2_Log.core
             }
         }
         /// <summary>
-        /// 
+        /// Se non è ancora stato creato il database, provvede a creare il file usando uno script sql presente
+        /// nella cartella Resources
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Lo stato della connessione</returns>
         private ConnectionState Create()
         {
             SQLiteConnection.CreateFile(Settings.Default.dbpath);
             try
             {
                 instance.conn.Open();
-                SQLiteCommand query = new SQLiteCommand(System.IO.File.ReadAllText(Settings.Default.dbscript_path),
-                    instance.conn);
+                SQLiteCommand query = new SQLiteCommand(File.ReadAllText(Settings.Default.dbscript_path), instance.conn);
                 query.ExecuteNonQuery();
-                instance.conn.ChangePassword(Settings.Default.password_hash);
+                instance.conn.ChangePassword(Settings.Default.password);
             }
             catch (SQLiteException sqle)
             {
-                switch (sqle.ResultCode)
-                {
-                    ///case(SQLiteErrorCode.)
-                }
+                throw sqle;
             }
             return conn.State;
         }
-        
+
         /// <summary>
         /// Metodo utile ad ottenere una istanza di tipo System.Data.SQLite.SQLiteDataReader contenente tutti
         /// i record presenti nel database locale con le loro informazioni generali, leggibile tramite
         /// una istanza di System.Data.Common.DbDataReader
         /// </summary>
-        /// <returns>System.DataSqlite.SQLiteDataReader : System.Data.Common.DbDataReader</returns>
-        public SQLiteDataReader GetMainView()
+        /// <returns>Ritorna un oggetto System.Data.Common.DbDataReader</returns>
+        public DbDataReader GetMainView()
         {
-            return new SQLiteCommand(QueryString.Create(Querable.MainMenuItems), conn).ExecuteReader();
+            try
+            {
+                return new SQLiteCommand(QueryString.Create(Querable.MainMenuItems), conn).ExecuteReader();
+            }
+            catch(SQLiteException sqle)
+            {
+                throw sqle;
+            }
         }
         /// <summary>
         /// Metodo utile ad ottenere una istanza di tipo System.Data.SQLite.SQLiteDataReader contenente tutte
@@ -137,20 +147,31 @@ namespace N2L_Need_2_Log.core
         /// leggibile tramite una istanza di System.Data.Common.DbDataReader
         /// </summary>
         /// <param name="entryId">identificativo del record nel database</param>
-        /// <returns>System.DataSqlite.SQLiteDataReader : System.Data.Common.DbDataReader</returns>
-        public SQLiteDataReader GetRecordInfo(int entryId)
+        /// <returns>Ritorna un oggetto System.Data.Common.DbDataReader</returns>
+        public DbDataReader GetRecordInfo(int entryId)
         {
-            return new SQLiteCommand(QueryString.Create(Querable.DetailedInfo, entryId), conn).ExecuteReader();
+            try { 
+                return new SQLiteCommand(QueryString.Create(Querable.DetailedInfo, entryId), conn).ExecuteReader();
+            }
+            catch (SQLiteException sqle)
+            {
+                throw sqle;
+            }
         }
         /// <summary>
         /// Metodo utile ad ottenere dal db tutti i tipi predefiniti già esistenti e preconfigurati
         /// leggibili tramite una istanza di System.Data.Common.DbDataReader
         /// </summary>
-        /// <returns>System.DataSqlite.SQLiteDataReader : System.Data.Common.DbDataReader</returns>
-        public SQLiteDataReader GetRecordsType()
+        /// <returns>Ritorna un oggetto System.Data.Common.DbDataReader</returns>
+        public DbDataReader GetRecordsType()
         {
-
-            return new SQLiteCommand(QueryString.Create(Querable.AdmittedType), conn).ExecuteReader();
+            try {
+                return new SQLiteCommand(QueryString.Create(Querable.AdmittedType), conn).ExecuteReader();
+            }
+            catch (SQLiteException sqle)
+            {
+                throw sqle;
+            }
         }
 
         /// <summary>
@@ -165,75 +186,129 @@ namespace N2L_Need_2_Log.core
         /// <returns>numero di righe inserite a seguito del comando</returns>
         public int Insert(string entryName, int typeId, string noteValue, string passwordValue, string urlValue, string usernameValue)
         {
-            string queryString = QueryString.Create(Querable.CreateNewEntry, entryName, typeId, noteValue, passwordValue, urlValue, usernameValue);
+            try { 
+                string queryString = QueryString.Create(Querable.CreateNewEntry, entryName, typeId, noteValue, passwordValue, urlValue, usernameValue);
 
-            SQLiteCommand sql = new SQLiteCommand(queryString, instance.conn);
+                 SQLiteCommand sql = new SQLiteCommand(queryString, instance.conn);
 
-            return sql.ExecuteNonQuery();
+                return sql.ExecuteNonQuery();
+            }
+            catch (SQLiteException sqle)
+            {
+                throw sqle;
+            }
         }
         /// <summary>
         /// Metodo utile ad aggiornare/modificare un record già esistente nel database
         /// </summary>
         /// <param name="entryId">id del record all'interno del database</param>
         /// <param name="entryName">nome del record</param>
+        /// <param name="typeId">Id del tipo predefinito associato al record</param>
         /// <param name="iconName">nome dell'icona associata al record</param>
         /// <param name="noteValue">note aggiuntive</param>
         /// <param name="passwordValue">password del record</param>
         /// <param name="urlValue">url del sito associato al record</param>
         /// <param name="usernameValue">username associato al record</param>
         /// <returns>numero di righe modificate a seguito del comando</returns>
-        public int Update(int entryId, string entryName, string iconName, string noteValue, string passwordValue, string urlValue, string usernameValue)
+        public int Update(int entryId, string entryName, int typeId, string iconName, string noteValue, string passwordValue, string urlValue, string usernameValue)
         {
-            string queryString = QueryString.Create(Querable.UpdateEntry, entryId, entryName, iconName, noteValue, passwordValue, urlValue, usernameValue);
+            try { 
+                string queryString = QueryString.Create(Querable.UpdateEntry, entryId, entryName, typeId, iconName, noteValue, passwordValue, urlValue, usernameValue);
 
-            SQLiteCommand sql = new SQLiteCommand(queryString, instance.conn);
-            return sql.ExecuteNonQuery();
+                SQLiteCommand sql = new SQLiteCommand(queryString, instance.conn);
+                return sql.ExecuteNonQuery();
+            }
+            catch (SQLiteException sqle)
+            {
+                throw sqle;
+            }
         }
         /// <summary>
         /// Metodo utile a cancellare tutti gli elementi associati ad un record dal database.
         /// </summary>
-        /// <param name="EntryId"> </param>
+        /// <param name="entryId">Id del record presente nel database</param>
         /// <returns>numero di righe eliminate a seguito del comando</returns>
         public int Erase(int entryId)
         {
-            string queryString = QueryString.Create(Querable.EraseEntry, entryId);
+            try { 
+                string queryString = QueryString.Create(Querable.EraseEntry, entryId);
 
-            SQLiteCommand sql = new SQLiteCommand(queryString, instance.conn);
+                SQLiteCommand sql = new SQLiteCommand(queryString, instance.conn);
 
-            return sql.ExecuteNonQuery();
+                return sql.ExecuteNonQuery();
+            }
+            catch (SQLiteException sqle)
+            {
+                throw sqle;
+            }
         }
+        /// <summary>
+        /// Metodo utile a verificare che il nome associato ad un record che si sta per
+        /// inserire sia univoco
+        /// </summary>
+        /// <param name="entryName">nome del record</param>
+        /// <returns>nome del record eventualmente modificato per rispettare l'univocità</returns>
+        public string CheckEntryName(string entryName)
+        {
+            string toReturn = String.Empty;
+            try
+            {
+                string queryString = QueryString.Create(Querable.CheckEntryName, entryName);
 
+                SQLiteCommand sql = new SQLiteCommand(queryString, conn);
+                using (SQLiteDataReader data = sql.ExecuteReader())
+                {
+                    while (data.Read())
+                    {
+                        toReturn = data[0].ToString();
+                    }
+                }
+            }
+            catch (SQLiteException sqle)
+            {
+                throw sqle;
+            }
+            return toReturn;
+        }
         /// <summary>
         /// Metodo utile a creare una copia di backup del database
         /// </summary>
         /// <param name="fullName"> nome completo di path del database di backup</param>
         /// <param name="password"> password che si vuole settare per proteggere il nuovo db</param>
-        /// <returns>true</returns>
-        public bool Backup(string fullName, string password)
+        public void Backup(string fullName, string password)
         {
-            SQLiteConnection.CreateFile(fullName);
-            using (var destination = new SQLiteConnection("Data Source=" + fullName + "; Version=3;"))
-            {
-                destination.Open();
-                if (!String.IsNullOrEmpty(password))
+            try { 
+                SQLiteConnection.CreateFile(fullName);
+                using (var destination = new SQLiteConnection("Data Source=" + fullName + "; Version=3;"))
                 {
-                    destination.ChangePassword(password);
+                    destination.Open();
+                    if (!String.IsNullOrEmpty(password))
+                    {
+                        destination.ChangePassword(password);
+                    }
+                    instance.conn.BackupDatabase(destination, "main", "main", -1, null, 500);
+                    destination.Close();
+                    destination.Dispose();
                 }
-                instance.conn.BackupDatabase(destination, "main", "main", -1, null, 500);
-                destination.Close();
-                destination.Dispose();
             }
-            return true;
+            catch (SQLiteException sqle)
+            {
+                throw sqle;
+            }
         }
         /// <summary>
         /// Metodo utile a modificare/assegnare una nuova password a protezione del database locale.
         /// </summary>
         /// <param name="newPassword"> nuova password</param>
-        /// <returns></returns>
-        public bool ChangeSettings(string newPassword)
+        public void ChangeSettings(string newPassword)
         {
-            instance.conn.ChangePassword(newPassword);
-            return true;
+            try { 
+                instance.conn.ChangePassword(newPassword);
+            }
+            catch (SQLiteException sqle)
+            {
+                throw sqle;
+            }
         }
     }
 }

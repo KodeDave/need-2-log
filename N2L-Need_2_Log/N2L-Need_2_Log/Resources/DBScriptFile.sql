@@ -30,6 +30,7 @@ CREATE TABLE "type" (
 	INSERT INTO `type` VALUES (11,'Amazon','amazon.png','www.amazon.com');
 	INSERT INTO `type` VALUES (12,'LinkedIn','linkedin.png','www.linkedin.com');
 	INSERT INTO `type` VALUES (13,'Wordpress','wordpress.png','www.wordpress.com');
+	INSERT INTO `type` VALUES (14,'Esse3 Uniurb','uniurb.png','www.uniurb.esse3.cineca.it/auth/Logon.do');
 CREATE TABLE "password" (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`value`	TEXT,
@@ -63,12 +64,14 @@ CREATE VIEW 'Main' AS
 			icon.entry_id = entry.id AND url.entry_id = entry.id;
 CREATE VIEW DetailedInfo AS
 	SELECT
-		entry.id AS ID, entry.name AS NAME,
+		entry.id AS ID,
+		entry.name AS NAME,
 		icon.name AS IMAGE,
 		note.value as NOTE,
 		password.value AS PASSWORD,
 		url.value AS URL,
-		username.value AS USERNAME
+		username.value AS USERNAME,
+		entry.type_id AS TYPE_ID
 		FROM
 			entry, icon, note, password, url, username
 		WHERE

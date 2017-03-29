@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="dbpath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">..\..\Resources\dbn2lsqlite.sqlite</Value>
+      <Value Profile="(Default)">..\..\Resources\DBN2L.db</Value>
     </Setting>
     <Setting Name="logged" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -14,20 +14,11 @@
     <Setting Name="default_password" Type="System.String" Scope="Application">
       <Value Profile="(Default)">default_password</Value>
     </Setting>
-    <Setting Name="password_hash" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="db_exist" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="dbscript_path" Type="System.String" Scope="Application">
       <Value Profile="(Default)">..\..\Resources\DBScriptFile.sql</Value>
-    </Setting>
-    <Setting Name="password_is_default" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="save_password" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="password" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

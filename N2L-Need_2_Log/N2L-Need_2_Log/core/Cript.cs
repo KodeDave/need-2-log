@@ -6,7 +6,8 @@ namespace N2L_Need_2_Log.core
 {
     /// <summary>
     /// Fornisce dei metodi static che permettono di calcolare un hash, confermarlo e generare randomicamente una password
-    /// restituiscono null se qualcosa non è corretto.    /// </summary>
+    /// restituiscono null se qualcosa non è corretto.
+    /// </summary>
     static class Cript
     {
         /// <summary>
@@ -17,27 +18,17 @@ namespace N2L_Need_2_Log.core
         /// <returns>l'hash relativo a plainText</returns>
         public static string ComputeHash(string plainText, byte[] salt)
         {
-            int minSaltLength = 4;
-            int maxSaltLength = 16;
             byte[] SaltBytes = null;
-
+            int SaltLength = 8;//16;
             if (salt != null)
             {
                 SaltBytes = salt;
             }
             else
             {
-                int SaltLength = 16;
-                //Random r = new Random();
-                //int SaltLength = r.Next(minSaltLength, maxSaltLength);
                 SaltBytes = new byte[SaltLength];
-                RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-                rng.GetNonZeroBytes(SaltBytes);
-                rng.Dispose();
-
+                SaltBytes = Convert.FromBase64String("1Amas4lT");
             }
-            //SaltBytes = new byte[Convert.FromBase64String(@"1_Am_@_s4lT").Length];
-            //SaltBytes = Convert.FromBase64String(@"1_Am_@_s4lT");
             byte[] plainData = ASCIIEncoding.UTF8.GetBytes(plainText);
             byte[] plainDataAndSalt = new byte[plainData.Length + SaltBytes.Length];
 

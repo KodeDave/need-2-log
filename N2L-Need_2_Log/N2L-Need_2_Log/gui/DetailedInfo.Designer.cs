@@ -145,6 +145,7 @@
             // 
             // buttonOk
             // 
+            this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonOk.Location = new System.Drawing.Point(362, 357);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
@@ -158,6 +159,7 @@
             this.AcceptButton = this.buttonOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.buttonOk;
             this.ClientSize = new System.Drawing.Size(450, 392);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.linkLabelUrl);
@@ -170,10 +172,13 @@
             this.Controls.Add(this.buttonPassword);
             this.Controls.Add(this.richTextBoxNote);
             this.Controls.Add(this.recordIcon);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "DetailedInfo";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "DetailedInfo";
+            this.Load += new System.EventHandler(this.DetailedInfo_Load);
             ((System.ComponentModel.ISupportInitialize)(this.recordIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

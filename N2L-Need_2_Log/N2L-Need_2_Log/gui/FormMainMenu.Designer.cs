@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMainMenu));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -36,7 +37,6 @@
             this.eliminaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.esportaInXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.strumentiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.opzioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.esciToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +47,16 @@
             this.iconepiccoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listViewMainMenu = new System.Windows.Forms.ListView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.apriToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modificaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.eliminaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.nuovoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.backupToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
+            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -79,24 +88,26 @@
             this.nuovoToolStripMenuItem.Name = "nuovoToolStripMenuItem";
             this.nuovoToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.nuovoToolStripMenuItem.Text = "&Nuovo";
+            this.nuovoToolStripMenuItem.Click += new System.EventHandler(this.nuovoToolStripMenuItem_Click);
             // 
             // modificaToolStripMenuItem
             // 
             this.modificaToolStripMenuItem.Name = "modificaToolStripMenuItem";
             this.modificaToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.modificaToolStripMenuItem.Text = "&Modifica";
+            this.modificaToolStripMenuItem.Click += new System.EventHandler(this.modificaToolStripMenuItem_Click);
             // 
             // eliminaToolStripMenuItem
             // 
             this.eliminaToolStripMenuItem.Name = "eliminaToolStripMenuItem";
             this.eliminaToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.eliminaToolStripMenuItem.Text = "&Elimina";
+            this.eliminaToolStripMenuItem.Click += new System.EventHandler(this.eliminaToolStripMenuItem_Click);
             // 
             // backupToolStripMenuItem
             // 
             this.backupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.esportaInXMLToolStripMenuItem});
+            this.toolStripMenuItem1});
             this.backupToolStripMenuItem.Name = "backupToolStripMenuItem";
             this.backupToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.backupToolStripMenuItem.Text = "&Backup";
@@ -107,13 +118,6 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(171, 22);
             this.toolStripMenuItem1.Text = "Crea DB di backup";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            // 
-            // esportaInXMLToolStripMenuItem
-            // 
-            this.esportaInXMLToolStripMenuItem.Name = "esportaInXMLToolStripMenuItem";
-            this.esportaInXMLToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.esportaInXMLToolStripMenuItem.Text = "Esporta in XML";
-            this.esportaInXMLToolStripMenuItem.Click += new System.EventHandler(this.esportaInXMLToolStripMenuItem_Click);
             // 
             // strumentiToolStripMenuItem
             // 
@@ -168,7 +172,7 @@
             this.iconegrandiToolStripMenuItem.Name = "iconegrandiToolStripMenuItem";
             this.iconegrandiToolStripMenuItem.ShowShortcutKeys = false;
             this.iconegrandiToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.iconegrandiToolStripMenuItem.Text = "icone &grandi";
+            this.iconegrandiToolStripMenuItem.Text = "&Icone grandi";
             this.iconegrandiToolStripMenuItem.Click += new System.EventHandler(this.iconegrandiToolStripMenuItem_Click);
             // 
             // iconepiccoleToolStripMenuItem
@@ -197,6 +201,59 @@
             this.listViewMainMenu.TabIndex = 1;
             this.listViewMainMenu.UseCompatibleStateImageBehavior = false;
             this.listViewMainMenu.ItemActivate += new System.EventHandler(this.listViewMainMenu_ItemActivate);
+            this.listViewMainMenu.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listViewMainMenu_MouseClick);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.apriToolStripMenuItem,
+            this.modificaToolStripMenuItem1,
+            this.eliminaToolStripMenuItem1});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(122, 70);
+            // 
+            // apriToolStripMenuItem
+            // 
+            this.apriToolStripMenuItem.Name = "apriToolStripMenuItem";
+            this.apriToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.apriToolStripMenuItem.Text = "&Apri";
+            this.apriToolStripMenuItem.Click += new System.EventHandler(this.apriToolStripMenuItem_Click);
+            // 
+            // modificaToolStripMenuItem1
+            // 
+            this.modificaToolStripMenuItem1.Name = "modificaToolStripMenuItem1";
+            this.modificaToolStripMenuItem1.Size = new System.Drawing.Size(121, 22);
+            this.modificaToolStripMenuItem1.Text = "&Modifica";
+            this.modificaToolStripMenuItem1.Click += new System.EventHandler(this.modificaToolStripMenuItem1_Click);
+            // 
+            // eliminaToolStripMenuItem1
+            // 
+            this.eliminaToolStripMenuItem1.Name = "eliminaToolStripMenuItem1";
+            this.eliminaToolStripMenuItem1.Size = new System.Drawing.Size(121, 22);
+            this.eliminaToolStripMenuItem1.Text = "&Elimina";
+            this.eliminaToolStripMenuItem1.Click += new System.EventHandler(this.eliminaToolStripMenuItem1_Click);
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nuovoToolStripMenuItem1,
+            this.backupToolStripMenuItem1});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(114, 48);
+            // 
+            // nuovoToolStripMenuItem1
+            // 
+            this.nuovoToolStripMenuItem1.Name = "nuovoToolStripMenuItem1";
+            this.nuovoToolStripMenuItem1.Size = new System.Drawing.Size(113, 22);
+            this.nuovoToolStripMenuItem1.Text = "Nuovo";
+            this.nuovoToolStripMenuItem1.Click += new System.EventHandler(this.nuovoToolStripMenuItem1_Click);
+            // 
+            // backupToolStripMenuItem1
+            // 
+            this.backupToolStripMenuItem1.Name = "backupToolStripMenuItem1";
+            this.backupToolStripMenuItem1.Size = new System.Drawing.Size(113, 22);
+            this.backupToolStripMenuItem1.Text = "Backup";
+            this.backupToolStripMenuItem1.Click += new System.EventHandler(this.backupToolStripMenuItem1_Click);
             // 
             // FormMainMenu
             // 
@@ -210,11 +267,13 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMainMenu";
-            this.Text = "MainMenu";
+            this.Text = "N2L - Need2Log";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMainMenu_FormClosing);
             this.Load += new System.EventHandler(this.FormMainMenu_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -234,11 +293,17 @@
         private System.Windows.Forms.ToolStripMenuItem esciToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem esportaInXMLToolStripMenuItem;
         private System.Windows.Forms.ListView listViewMainMenu;
         private System.Windows.Forms.ToolStripMenuItem visualizzaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem iconegrandiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem iconepiccoleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listaToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem apriToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem modificaToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem eliminaToolStripMenuItem1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem nuovoToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem backupToolStripMenuItem1;
     }
 }

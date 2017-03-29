@@ -25,7 +25,7 @@ namespace N2L_Need_2_Log.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\Resources\\dbn2lsqlite.sqlite")]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\Resources\\DBN2L.db")]
         public string dbpath {
             get {
                 return ((string)(this["dbpath"]));
@@ -67,18 +67,6 @@ namespace N2L_Need_2_Log.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string password_hash {
-            get {
-                return ((string)(this["password_hash"]));
-            }
-            set {
-                this["password_hash"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool db_exist {
             get {
@@ -95,30 +83,6 @@ namespace N2L_Need_2_Log.Properties {
         public string dbscript_path {
             get {
                 return ((string)(this["dbscript_path"]));
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool password_is_default {
-            get {
-                return ((bool)(this["password_is_default"]));
-            }
-            set {
-                this["password_is_default"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool save_password {
-            get {
-                return ((bool)(this["save_password"]));
-            }
-            set {
-                this["save_password"] = value;
             }
         }
         
